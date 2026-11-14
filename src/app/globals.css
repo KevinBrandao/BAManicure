@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* Identidade visual: nude, rosé, branco, bege e detalhes dourados */
+@theme {
+  --color-creme: #fdfaf7;
+  --color-nude-50: #faf4ee;
+  --color-nude-100: #f4e9df;
+  --color-nude-200: #ead9ca;
+  --color-nude-300: #dcc4b0;
+  --color-rose-50: #fbf1f0;
+  --color-rose-100: #f6e1df;
+  --color-rose-200: #edc9c5;
+  --color-rose-300: #e0aaa5;
+  --color-rose-400: #cf8f89;
+  --color-rose-500: #b97570;
+  --color-rose-600: #9c5d59;
+  --color-ouro-300: #d9bd8c;
+  --color-ouro-400: #c4a26a;
+  --color-ouro-500: #a98650;
+  --color-ouro-600: #8a6b3c;
+  --color-tinta: #46372f;
+  --color-tinta-suave: #7b6a61;
+  --color-linha: #ecdfd3;
+
+  --font-titulo: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-corpo: var(--font-jost), "Jost", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-suave: 0 10px 40px -18px rgb(70 55 47 / 0.28);
+  --shadow-cartao: 0 2px 14px -6px rgb(70 55 47 / 0.18);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-creme);
+  color: var(--color-tinta);
+  font-family: var(--font-corpo);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-titulo);
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ouro-500);
+  outline-offset: 2px;
+}
+
+@layer components {
+  /* ---- botões ---- */
+  .btn {
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium tracking-wide transition duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primario {
+    @apply bg-rose-500 text-white shadow-cartao hover:bg-rose-600;
+  }
+  .btn-ouro {
+    @apply border border-ouro-400 bg-white/70 text-ouro-600 hover:bg-ouro-400 hover:text-white;
+  }
+  .btn-whats {
+    @apply bg-[#1f9d55] text-white shadow-cartao hover:bg-[#17803f];
+  }
+  .btn-claro {
+    @apply border border-linha bg-white text-tinta hover:bg-nude-50;
+  }
+  .btn-perigo {
+    @apply border border-red-200 bg-white text-red-700 hover:bg-red-50;
+  }
+  .btn-sm {
+    @apply min-h-9 px-4 py-1.5 text-[13px];
+  }
+
+  /* ---- formulários (painel) ---- */
+  .campo {
+    @apply block min-h-11 w-full rounded-xl border border-nude-200 bg-white px-3.5 py-2 text-[15px] text-tinta placeholder:text-tinta-suave/60 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200;
+  }
+  .rotulo {
+    @apply mb-1.5 block text-sm font-medium text-tinta;
+  }
+  .ajuda {
+    @apply mt-1 text-xs text-tinta-suave;
+  }
+  .cartao {
+    @apply rounded-2xl border border-linha bg-white p-5 shadow-cartao;
+  }
+  .titulo-secao {
+    @apply text-3xl text-tinta sm:text-4xl;
+  }
+  .sobretitulo {
+    @apply mb-3 text-xs font-medium uppercase tracking-[0.28em] text-ouro-500;
+  }
+  .tabela {
+    @apply w-full text-left text-sm;
+  }
+  .tabela th {
+    @apply border-b border-linha px-3 py-2.5 text-xs font-medium uppercase tracking-wider text-tinta-suave;
+  }
+  .tabela td {
+    @apply border-b border-linha/70 px-3 py-3 align-top;
+  }
+  .selo {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap;
+  }
+}
+
+/* divisor dourado decorativo */
+.filete {
+  height: 1px;
+  width: 4.5rem;
+  background: linear-gradient(90deg, transparent, var(--color-ouro-400), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

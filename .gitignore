@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# segredos
+.env
+.env.local
+.env.*.local
+
+# banco local de desenvolvimento (PGlite)
+.data/
+
+.vercel/
+coverage/
+*.log
