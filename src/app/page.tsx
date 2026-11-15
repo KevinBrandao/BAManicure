@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Galeria from "@/components/site/Galeria";
+import IlustracaoServico, { tipoDoServico } from "@/components/site/IlustracaoServico";
 import {
   IconeCheck,
   IconeInstagram,
@@ -270,6 +271,8 @@ export default async function PaginaInicial() {
                         {img ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={img} alt={s.nome} loading="lazy" className="h-full w-full object-cover" />
+                        ) : tipoDoServico(s.nome) ? (
+                          <IlustracaoServico nome={s.nome} />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-ouro-400">
                             <Ornamento className="h-12 w-12" />
