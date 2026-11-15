@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Carrossel from "@/components/site/Carrossel";
 import Galeria from "@/components/site/Galeria";
+import slidesDeInspiracao from "@/components/site/Inspiracoes";
 import IlustracaoServico, { tipoDoServico } from "@/components/site/IlustracaoServico";
 import {
   IconeCheck,
@@ -124,6 +126,7 @@ export default async function PaginaInicial() {
   const navegacao = [
     { href: "#sobre", rotulo: "Sobre" },
     { href: "#servicos", rotulo: "Serviços" },
+    { href: "#inspiracoes", rotulo: "Inspirações" },
     ...(galeria.length > 0 ? [{ href: "#galeria", rotulo: "Galeria" }] : []),
     { href: "#horarios", rotulo: "Horários" },
     { href: "#contato", rotulo: "Contato" },
@@ -169,14 +172,9 @@ export default async function PaginaInicial() {
               <p className="mx-auto max-w-md text-lg leading-relaxed text-tinta-suave md:mx-0">{cfg.frase}</p>
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:justify-start">
                 {whats ? (
-                  <>
-                    <a href={whats} target="_blank" rel="noopener noreferrer" className="btn btn-primario w-full sm:w-auto">
-                      Agendar meu horário
-                    </a>
-                    <a href={whats} target="_blank" rel="noopener noreferrer" className="btn btn-whats w-full sm:w-auto">
-                      <IconeWhatsApp /> Chamar no WhatsApp
-                    </a>
-                  </>
+                  <a href={whats} target="_blank" rel="noopener noreferrer" className="btn btn-primario w-full px-8 sm:w-auto">
+                    Agendar meu horário
+                  </a>
                 ) : (
                   <a href="#servicos" className="btn btn-primario w-full sm:w-auto">
                     Conhecer os serviços
@@ -302,6 +300,22 @@ export default async function PaginaInicial() {
               </div>
             )}
           </div>
+        </section>
+
+        {/* ---------------------------------------------------------- Inspirações */}
+        <section id="inspiracoes" className="mx-auto max-w-6xl px-5 py-16 md:py-24">
+          <div className="mb-10 text-center">
+            <p className="sobretitulo">Inspirações</p>
+            <h2 className="titulo-secao">Inspire-se e escolha seu próximo estilo!</h2>
+            <div className="filete mx-auto mt-5" />
+            <p className="mx-auto mt-5 max-w-xl text-tinta-suave">
+              Alguns estilos que você pode pedir no seu atendimento.
+            </p>
+          </div>
+          <Carrossel rotulo="Inspirações de estilos de unhas">{slidesDeInspiracao()}</Carrossel>
+          <p className="mt-6 text-center text-xs text-tinta-suave">
+            Imagens ilustrativas de estilos — não são fotos de atendimentos realizados.
+          </p>
         </section>
 
         {/* -------------------------------------------------------------- Galeria */}
