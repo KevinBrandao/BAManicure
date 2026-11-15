@@ -97,6 +97,16 @@ export default function Carrossel({ rotulo, children }: { rotulo: string; childr
         <button type="button" onClick={() => mover(-1)} disabled={ativo <= 0} aria-label="Imagens anteriores" className={botaoSeta}>
           ‹
         </button>
+        {ultimo + 1 > 9 ? (
+          <div className="flex items-center gap-3" role="status" aria-label={`Posição ${ativo + 1} de ${ultimo + 1}`}>
+            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-nude-200 sm:w-40">
+              <div className="h-full rounded-full bg-rose-500 transition-all duration-300" style={{ width: `${((ativo + 1) / (ultimo + 1)) * 100}%` }} />
+            </div>
+            <span className="min-w-12 text-sm text-tinta-suave tabular-nums">
+              {ativo + 1} / {ultimo + 1}
+            </span>
+          </div>
+        ) : (
         <div className="flex items-center gap-1">
           {Array.from({ length: ultimo + 1 }).map((_, i) => (
             <button
@@ -111,6 +121,7 @@ export default function Carrossel({ rotulo, children }: { rotulo: string; childr
             </button>
           ))}
         </div>
+        )}
         <button type="button" onClick={() => mover(1)} disabled={ativo >= ultimo} aria-label="Próximas imagens" className={botaoSeta}>
           ›
         </button>

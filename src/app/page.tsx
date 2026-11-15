@@ -314,7 +314,7 @@ export default async function PaginaInicial() {
           </div>
           <Carrossel rotulo="Inspirações de estilos de unhas">{slidesDeInspiracao()}</Carrossel>
           <p className="mt-6 text-center text-xs text-tinta-suave">
-            Imagens ilustrativas de estilos — não são fotos de atendimentos realizados.
+            Fotos de inspiração para escolher o estilo — não são atendimentos realizados pela profissional.
           </p>
         </section>
 
