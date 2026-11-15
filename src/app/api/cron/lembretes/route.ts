@@ -5,6 +5,7 @@
  */
 import { timingSafeEqual } from "node:crypto";
 import { processarLembretes } from "@/lib/lembretes";
+import { modoLanding } from "@/lib/conteudo";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -18,6 +19,7 @@ function autorizado(req: Request): boolean | null {
 }
 
 async function executar(req: Request) {
+  if (modoLanding()) return Response.json({ erro: "Lembretes desativados: site publicado sem banco de dados" }, { status: 503 });
   const ok = autorizado(req);
   if (ok === null) return Response.json({ erro: "CRON_SECRET não configurado" }, { status: 503 });
   if (!ok) return Response.json({ erro: "Não autorizado" }, { status: 401 });

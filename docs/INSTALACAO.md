@@ -1,5 +1,8 @@
 # Instalação e publicação
 
+> **Publicando na Vercel com Supabase?** Siga o passo a passo específico em [DEPLOY-VERCEL.md](DEPLOY-VERCEL.md).
+> Este documento traz a visão geral, o agendador de lembretes, backups e alternativas de hospedagem.
+
 Este guia leva o sistema do computador para a internet. O caminho sugerido (baixo custo e pouca manutenção) é
 **Supabase** para o banco e **Vercel** para o site, mas qualquer PostgreSQL e qualquer hospedagem Node.js servem.
 

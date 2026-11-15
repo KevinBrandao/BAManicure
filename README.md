@@ -60,6 +60,14 @@ docs/                           guias de instalação e do WhatsApp
 - **Webhooks duplicados:** índice único no id da mensagem do WhatsApp.
 - **Fuso horário:** instantes em `timestamptz`; toda regra de negócio usa `America/Sao_Paulo`.
 
+## Dois modos de publicação
+
+- **Só a landing page (sem banco):** sem `DATABASE_URL` em produção, o site é servido a partir de
+  `src/conteudo/site.json` e `public/conteudo/`; painel, WhatsApp e lembretes ficam desligados.
+- **Sistema completo:** com `DATABASE_URL` (Supabase), tudo é ativado.
+
+Passo a passo dos dois em [docs/DEPLOY-VERCEL.md](docs/DEPLOY-VERCEL.md).
+
 ## Começando (desenvolvimento local)
 
 Requisitos: Node.js 20 ou superior.
@@ -105,17 +113,19 @@ npm run dev
 | Comando | O que faz |
 | --- | --- |
 | `npm run dev` | Servidor de desenvolvimento |
-| `npm run build` / `npm start` | Build e execução em produção |
+| `npm run build` / `npm start` | Aplica migrações pendentes (se houver `DATABASE_URL`), gera o build e executa em produção |
 | `npm test` | Testes das regras de negócio |
 | `npm run typecheck` | Verificação de tipos |
 | `npm run db:migrate` | Aplica migrações pendentes no banco de `DATABASE_URL` |
+| `npm run db:publicar-config` | Copia as configurações reais do banco local (site, logo, serviços, expediente) para o banco de produção |
+| `npm run site:exportar` | Gera `src/conteudo/site.json` e `public/conteudo/` para publicar só a landing page, sem banco |
 | `npm run db:seed` | Cadastra serviços de exemplo (só se não houver nenhum) |
 | `npm run admin:create` | Cria a administradora / redefine a senha |
 | `npm run worker` | Chama o endpoint de lembretes a cada minuto (VPS ou PC) |
 
 ## Testes
 
-`npm test` executa 60 testes contra um PostgreSQL real em memória (PGlite), com o mesmo schema de produção. Eles
+`npm test` executa 65 testes contra um PostgreSQL real em memória (PGlite), com o mesmo schema de produção. Eles
 cobrem os critérios de aceitação: fluxo completo de agendamento pelo WhatsApp, dupla reserva e confirmações
 simultâneas, cancelamento e liberação de horário, consulta, bloqueios, serviços inativos, expediente, antecedência,
 conversa abandonada, lembretes nos horários corretos, não duplicação, falhas e novas tentativas, janela de 24h e
@@ -132,7 +142,7 @@ Estas partes estão implementadas, mas só funcionam depois de configuradas por 
 | --- | --- | --- |
 | **WhatsApp Business Cloud API** | Criar app na Meta, obter token, Phone Number ID e App Secret, cadastrar o webhook | [docs/WHATSAPP.md](docs/WHATSAPP.md) |
 | **Templates de lembrete** | Criar e aprovar 3 templates na Meta (obrigatório para lembretes fora da janela de 24h) | [docs/WHATSAPP.md](docs/WHATSAPP.md#4-templates-dos-lembretes) |
-| **Banco de produção** | Criar um PostgreSQL (ex.: Supabase) e aplicar as migrações | [docs/INSTALACAO.md](docs/INSTALACAO.md) |
+| **Banco de produção** | Criar o projeto no Supabase e cadastrar `DATABASE_URL` (as migrações rodam sozinhas no deploy) | [docs/DEPLOY-VERCEL.md](docs/DEPLOY-VERCEL.md) |
 | **Hospedagem com HTTPS** | Publicar (ex.: Vercel) — o webhook da Meta exige HTTPS público | [docs/INSTALACAO.md](docs/INSTALACAO.md) |
 | **Agendador dos lembretes** | Chamar `/api/cron/lembretes` a cada minuto | [docs/INSTALACAO.md](docs/INSTALACAO.md#4-agendador-dos-lembretes) |
 
@@ -151,5 +161,3 @@ completo, a gravação dos agendamentos e o registro das falhas de envio.
 - LGPD: consentimento registrado na confirmação do agendamento, opt-out por `SAIR`, política de privacidade
   pública e exclusão/anonimização dos dados em *Painel → Clientes → Privacidade*.
 - Backups: veja [docs/INSTALACAO.md](docs/INSTALACAO.md#6-backups).
-#   B A M a n i c u r e  
- 

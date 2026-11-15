@@ -8,7 +8,7 @@ import { dentroDaJanela24h } from "@/lib/whatsapp/envio";
 import { Aviso, Cabecalho, formatarTelefone, Selo, Vazio, Voltar, type Busca } from "@/components/admin/Ui";
 import { AtualizacaoAutomatica } from "@/components/admin/Cliente";
 
-export const metadata = { title: "Conversa" };
+export const metadata = { title: "Conversa" }; 
 
 const STATUS_MSG: Record<string, string> = { ENVIADA: "enviada", ENTREGUE: "entregue", LIDA: "lida", FALHA: "falhou" };
 

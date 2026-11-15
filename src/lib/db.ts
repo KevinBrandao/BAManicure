@@ -36,8 +36,34 @@ const MIGRATIONS_DIR = path.join(process.cwd(), "db", "migrations");
 
 async function createPgDb(connectionString: string): Promise<Db> {
   const { Pool } = await import("pg");
+
+  // TLS sempre ligado (exceto DATABASE_SSL=false, para Postgres local). O
+  // parâmetro sslmode da URL é removido porque, no driver pg, ele se sobrepõe
+  // à configuração abaixo e rejeita a cadeia de certificados do pooler do Supabase.
+  let url: URL;
+  try {
+    url = new URL(connectionString);
+  } catch {
+    throw new Error(
+      "DATABASE_URL inválida. Use o formato postgresql://usuario:senha@host:porta/banco " +
+        "(caracteres especiais da senha precisam estar codificados, ex.: @ vira %40).",
+    );
+  }
+  url.searchParams.delete("sslmode");
   const ssl = process.env.DATABASE_SSL === "false" ? undefined : { rejectUnauthorized: false };
-  const pool = new Pool({ connectionString, ssl, max: 5, idleTimeoutMillis: 10_000 });
+
+  // Poucas conexões por instância: em ambiente serverless cada função abre o
+  // próprio pool, e quem multiplexa de verdade é o pooler do Supabase.
+  const max = Math.max(1, Number(process.env.DATABASE_POOL_MAX) || 3);
+  const pool = new Pool({
+    connectionString: url.toString(),
+    ssl,
+    max,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+  });
+  // conexão ociosa derrubada pelo servidor não deve derrubar o processo
+  pool.on("error", (err) => console.error("[db] erro em conexão ociosa:", err.message));
 
   const wrap = (runner: { query: (sql: string, params?: unknown[]) => Promise<{ rows: unknown[]; rowCount: number | null }> }): Queryable => ({
     async query<T>(sql: string, params?: unknown[]) {
@@ -109,7 +135,8 @@ export async function runMigrations(db: Db): Promise<string[]> {
     `CREATE TABLE IF NOT EXISTS schema_migrations (
        nome text PRIMARY KEY,
        aplicada_em timestamptz NOT NULL DEFAULT now()
-     )`,
+     );
+     ALTER TABLE schema_migrations ENABLE ROW LEVEL SECURITY;`,
   );
   const done = new Set(
     (await db.query<{ nome: string }>("SELECT nome FROM schema_migrations")).rows.map((r) => r.nome),
@@ -143,7 +170,8 @@ async function initDb(): Promise<Db> {
   }
   if (process.env.NODE_ENV === "production" && process.env.ALLOW_PGLITE_IN_PRODUCTION !== "true") {
     throw new Error(
-      "DATABASE_URL não configurada. Em produção é obrigatório um PostgreSQL (ex.: Supabase).",
+      "DATABASE_URL não configurada. Em produção é obrigatório um PostgreSQL (ex.: Supabase). " +
+        "Cadastre a variável na hospedagem (Vercel → Settings → Environment Variables) e faça um novo deploy.",
     );
   }
   const db = await createPgliteDb(path.join(process.cwd(), ".data", "pglite"));
@@ -159,6 +187,11 @@ export function getDb(): Promise<Db> {
     });
   }
   return globalRef.__appDb;
+}
+
+/** Indica se há um PostgreSQL de produção configurado. */
+export function bancoConfigurado(): boolean {
+  return Boolean(process.env.DATABASE_URL?.trim());
 }
 
 /** Uso exclusivo dos testes: instala um banco em memória. */

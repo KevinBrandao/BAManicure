@@ -12,13 +12,30 @@ import {
 import { lerDadosSite, type HorarioDia } from "@/lib/site";
 import { lerConfiguracoes, linkWhatsApp, nomeExibicao } from "@/lib/settings";
 import { urlImagem } from "@/lib/imagens";
+import { modoLanding } from "@/lib/conteudo";
 import { DIAS_SEMANA, formatarDuracao, formatarPreco } from "@/lib/tz";
 
 // conteúdo vem do banco e deve refletir o painel imediatamente
 export const dynamic = "force-dynamic";
 
+/** Metadados estáticos usados quando as configurações não podem ser lidas. */
+const METADADOS_PADRAO: Metadata = {
+  title: "Manicure e nail design com hora marcada",
+  description: "Conheça os serviços e agende seu horário pelo WhatsApp.",
+  alternates: { canonical: "/" },
+};
+
 export async function generateMetadata(): Promise<Metadata> {
-  const cfg = await lerConfiguracoes();
+  // Os metadados não podem derrubar a página: se o banco estiver indisponível,
+  // o erro é registrado e a página segue com metadados estáticos. O conteúdo
+  // em si continua dependendo do banco e mostra a tela de indisponibilidade.
+  let cfg: Awaited<ReturnType<typeof lerConfiguracoes>>;
+  try {
+    cfg = await lerConfiguracoes();
+  } catch (err) {
+    console.error("[site] não foi possível ler as configurações para os metadados:", err);
+    return METADADOS_PADRAO;
+  }
   const nome = nomeExibicao(cfg);
   const titulo = `${nome} — Manicure e nail design com hora marcada`;
   const descricao = `${cfg.frase} Conheça os serviços, veja fotos dos trabalhos e agende seu horário pelo WhatsApp.`;
@@ -78,6 +95,7 @@ export default async function PaginaInicial() {
   const nome = nomeExibicao(cfg);
   const whats = linkWhatsApp(cfg, "Olá! Gostaria de agendar um horário.");
   const insta = instagramUrl(cfg.instagram);
+  const logo = urlImagem(cfg.logo_id);
   const fotoPrincipal = urlImagem(cfg.foto_principal_id);
   const fotoSobre = urlImagem(cfg.foto_sobre_id);
   // semana começando na segunda-feira
@@ -117,7 +135,11 @@ export default async function PaginaInicial() {
       {/* ------------------------------------------------------------ Cabeçalho */}
       <header className="sticky top-0 z-40 border-b border-linha/70 bg-creme/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
-          <a href="#inicio" className="font-titulo text-xl tracking-wide text-tinta">
+          <a href="#inicio" className="flex items-center gap-2.5 font-titulo text-xl tracking-wide text-tinta">
+            {logo && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logo} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
+            )}
             {nome}
           </a>
           <nav aria-label="Seções do site" className="hidden items-center gap-7 text-sm text-tinta-suave md:flex">
@@ -165,10 +187,10 @@ export default async function PaginaInicial() {
 
             <div className="relative mx-auto w-full max-w-sm md:max-w-md">
               <div className="absolute -top-4 -right-4 h-full w-full rounded-[2.5rem] border border-ouro-300" aria-hidden="true" />
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-rose-100 via-nude-100 to-nude-200 shadow-suave">
+              <div className="relative aspect-square overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-rose-100 via-nude-100 to-nude-200 shadow-suave">
                 {fotoPrincipal ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={fotoPrincipal} alt={`Trabalho de ${nome}`} className="h-full w-full object-cover" fetchPriority="high" />
+                  <img src={fotoPrincipal} alt={nome} className="h-full w-full object-cover" fetchPriority="high" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-ouro-400">
                     <Ornamento className="h-28 w-28" />
@@ -382,9 +404,11 @@ export default async function PaginaInicial() {
             <Link href="/privacidade" className="underline-offset-4 hover:underline">
               Política de privacidade
             </Link>
-            <Link href="/admin" className="underline-offset-4 hover:underline">
-              Área da profissional
-            </Link>
+            {!modoLanding() && (
+              <Link href="/admin" className="underline-offset-4 hover:underline">
+                Área da profissional
+              </Link>
+            )}
           </nav>
         </div>
       </footer>

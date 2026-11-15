@@ -1,5 +1,6 @@
 import { getDb } from "./db";
 import { ehUuid } from "./agenda";
+import { conteudoEstatico, modoLanding } from "./conteudo";
 
 export const TAMANHO_MAX_IMAGEM = 4 * 1024 * 1024;
 
@@ -50,5 +51,6 @@ export async function removerImagem(id: string | null | undefined): Promise<void
 }
 
 export function urlImagem(id: string | null | undefined): string | null {
+  if (id && modoLanding()) return conteudoEstatico.imagens[id] ?? null;
   return id ? `/api/imagens/${id}` : null;
 }

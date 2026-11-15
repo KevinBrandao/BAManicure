@@ -1,0 +1,229 @@
+{
+  "geradoEm": "2026-11-15T01:57:23.113Z",
+  "cfg": {
+    "nome_profissional": "Beatriz Almeida",
+    "frase": "Unhas impecáveis, feitas com cuidado e carinho em cada detalhe.",
+    "sobre_texto": "",
+    "experiencia": "",
+    "diferenciais": [
+      "Atendimento com hora marcada",
+      "Materiais esterilizados",
+      "Ambiente tranquilo e acolhedor"
+    ],
+    "endereco": "Rua Antônio Maranhã, 1403 – Bairro Vera Cruz\r\nFranca – SP",
+    "maps_url": "https://www.google.com/maps/search/?api=1&query=Rua%20Ant%C3%B4nio%20Maranh%C3%A3%2C%201403%2C%20Vera%20Cruz%2C%20Franca%20-%20SP",
+    "whatsapp_numero": "5516994225844",
+    "instagram": "beatriz_almeidastudio",
+    "logo_id": "d533517b-48b8-45c7-9c83-846152cf26e7",
+    "foto_principal_id": "73b03e81-e910-40d7-9a7c-9a47fd664c99",
+    "foto_sobre_id": null
+  },
+  "servicos": [
+    {
+      "id": "1ab18cb8-fcf0-4d98-b7be-74f5aaaf23e4",
+      "nome": "Manicure",
+      "descricao": "Cutilagem, lixamento e esmaltação.",
+      "preco_centavos": 3700,
+      "duracao_minutos": 45,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 1
+    },
+    {
+      "id": "4c1a93c0-b966-4d88-bff6-7f443ab3629a",
+      "nome": "Pedicure",
+      "descricao": "Cuidado completo dos pés com esmaltação.",
+      "preco_centavos": 4000,
+      "duracao_minutos": 60,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 2
+    },
+    {
+      "id": "81e27ec4-7623-450c-84f1-2735e418d3b8",
+      "nome": "Manicure e pedicure",
+      "descricao": "Mãos e pés no mesmo atendimento.",
+      "preco_centavos": 7200,
+      "duracao_minutos": 105,
+      "intervalo_minutos": 15,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 3
+    },
+    {
+      "id": "63d8306f-3da3-4500-92c7-4d4ad0305541",
+      "nome": "Cutilagem mão",
+      "descricao": "",
+      "preco_centavos": 2700,
+      "duracao_minutos": 30,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 4
+    },
+    {
+      "id": "e0fd4c20-4977-4d59-84f3-8b7f0adf13ad",
+      "nome": "Cutilagem pé",
+      "descricao": "",
+      "preco_centavos": 3000,
+      "duracao_minutos": 30,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 5
+    },
+    {
+      "id": "bbd25bee-04a4-42a5-9a34-5b776b8f3fd1",
+      "nome": "Esmaltação em gel",
+      "descricao": "",
+      "preco_centavos": 8500,
+      "duracao_minutos": 60,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 6
+    },
+    {
+      "id": "ffa6d123-3283-4696-a0e2-4ee90cadc330",
+      "nome": "Alongamento MoldeF1",
+      "descricao": "",
+      "preco_centavos": 17000,
+      "duracao_minutos": 150,
+      "intervalo_minutos": 15,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 7
+    },
+    {
+      "id": "aeefd436-a4c7-4ee3-bdd4-e036da4fb959",
+      "nome": "Manutenção moldeF1",
+      "descricao": "",
+      "preco_centavos": 14000,
+      "duracao_minutos": 120,
+      "intervalo_minutos": 15,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 8
+    },
+    {
+      "id": "b2213d29-ff96-45d3-ab00-a81d462dafca",
+      "nome": "Banho de gel",
+      "descricao": "",
+      "preco_centavos": 13000,
+      "duracao_minutos": 120,
+      "intervalo_minutos": 15,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 9
+    },
+    {
+      "id": "c2a76815-159e-4c7f-8518-6b3631103f2f",
+      "nome": "Manutenção banho de gel",
+      "descricao": "",
+      "preco_centavos": 11000,
+      "duracao_minutos": 90,
+      "intervalo_minutos": 15,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 10
+    },
+    {
+      "id": "145efe19-2eac-404c-81b1-ed9762922c11",
+      "nome": "Remoção de alongamento",
+      "descricao": "",
+      "preco_centavos": 5000,
+      "duracao_minutos": 45,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 11
+    },
+    {
+      "id": "43ed990b-f211-44dc-8dc5-2eb5cbe89f14",
+      "nome": "Remoção de esmaltação em gel",
+      "descricao": "",
+      "preco_centavos": 2000,
+      "duracao_minutos": 30,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 12
+    },
+    {
+      "id": "1936006f-15c2-44e7-abc0-e11e255ac2bb",
+      "nome": "Alongamento ou banho avulso",
+      "descricao": "Valor por dedo.",
+      "preco_centavos": 2000,
+      "duracao_minutos": 20,
+      "intervalo_minutos": 0,
+      "ativo": true,
+      "image_id": null,
+      "ordem": 13
+    }
+  ],
+  "galeria": [],
+  "expediente": [
+    {
+      "dia_semana": 0,
+      "inicio": "09:00",
+      "fim": "18:00",
+      "intervalo_inicio": null,
+      "intervalo_fim": null,
+      "ativo": false
+    },
+    {
+      "dia_semana": 1,
+      "inicio": "09:00",
+      "fim": "18:00",
+      "intervalo_inicio": "12:00",
+      "intervalo_fim": "13:00",
+      "ativo": true
+    },
+    {
+      "dia_semana": 2,
+      "inicio": "09:00",
+      "fim": "18:00",
+      "intervalo_inicio": "12:00",
+      "intervalo_fim": "13:00",
+      "ativo": true
+    },
+    {
+      "dia_semana": 3,
+      "inicio": "09:00",
+      "fim": "18:00",
+      "intervalo_inicio": "12:00",
+      "intervalo_fim": "13:00",
+      "ativo": true
+    },
+    {
+      "dia_semana": 4,
+      "inicio": "09:00",
+      "fim": "18:00",
+      "intervalo_inicio": "12:00",
+      "intervalo_fim": "13:00",
+      "ativo": true
+    },
+    {
+      "dia_semana": 5,
+      "inicio": "09:00",
+      "fim": "18:00",
+      "intervalo_inicio": "12:00",
+      "intervalo_fim": "13:00",
+      "ativo": true
+    },
+    {
+      "dia_semana": 6,
+      "inicio": "09:00",
+      "fim": "13:00",
+      "intervalo_inicio": null,
+      "intervalo_fim": null,
+      "ativo": true
+    }
+  ],
+  "imagens": {
+    "d533517b-48b8-45c7-9c83-846152cf26e7": "/conteudo/d533517b-48b8-45c7-9c83-846152cf26e7.jpg",
+    "73b03e81-e910-40d7-9a7c-9a47fd664c99": "/conteudo/73b03e81-e910-40d7-9a7c-9a47fd664c99.jpg"
+  }
+}

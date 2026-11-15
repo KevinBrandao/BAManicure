@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { modoLanding } from "@/lib/conteudo";
 import { acaoEntrar } from "../actions";
 import { existeAdministradora, usuarioAtual } from "@/lib/auth";
 import { Aviso, type Busca } from "@/components/admin/Ui";
@@ -9,6 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Entrar — Painel", robots: { index: false, follow: false } };
 
 export default async function Login({ searchParams }: { searchParams: Busca }) {
+  if (modoLanding()) notFound();
   if (await usuarioAtual()) redirect("/admin");
   const busca = await searchParams;
   const temAdmin = await existeAdministradora();

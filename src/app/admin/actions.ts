@@ -415,6 +415,8 @@ export async function salvarSite(fd: FormData): Promise<void> {
     const maps = texto(fd, "maps_url", { max: 500 });
     if (maps && !/^https:\/\//i.test(maps)) throw new ErroValidacao("O link do Google Maps deve começar com https://");
 
+    const logo = await salvarImagem(fd.get("logo"));
+    const removerLogo = fd.get("remover_logo") === "on";
     const fotoPrincipal = await salvarImagem(fd.get("foto_principal"));
     const fotoSobre = await salvarImagem(fd.get("foto_sobre"));
     const removerPrincipal = fd.get("remover_foto_principal") === "on";
@@ -434,10 +436,12 @@ export async function salvarSite(fd: FormData): Promise<void> {
       maps_url: maps,
       whatsapp_numero: whatsapp ?? "",
       instagram: texto(fd, "instagram", { max: 120 }),
+      logo_id: logo ?? (removerLogo ? null : atual.logo_id),
       foto_principal_id: fotoPrincipal ?? (removerPrincipal ? null : atual.foto_principal_id),
       foto_sobre_id: fotoSobre ?? (removerSobre ? null : atual.foto_sobre_id),
     };
     await salvarConfiguracoes(novo);
+    if (atual.logo_id && atual.logo_id !== novo.logo_id) await removerImagem(atual.logo_id);
     if (atual.foto_principal_id && atual.foto_principal_id !== novo.foto_principal_id) await removerImagem(atual.foto_principal_id);
     if (atual.foto_sobre_id && atual.foto_sobre_id !== novo.foto_sobre_id) await removerImagem(atual.foto_sobre_id);
     await registrarAuditoria(u, "site.salvar", "settings");

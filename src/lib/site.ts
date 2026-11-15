@@ -2,6 +2,7 @@ import { getDb } from "./db";
 import { listarServicos, type Servico } from "./agenda";
 import { lerConfiguracoes, type Configuracoes } from "./settings";
 import { hhmm } from "./tz";
+import { conteudoEstatico, modoLanding } from "./conteudo";
 
 export interface FotoGaleria {
   id: string;
@@ -59,6 +60,14 @@ export interface DadosSite {
 
 export async function lerDadosSite(): Promise<DadosSite> {
   const cfg = await lerConfiguracoes();
+  if (modoLanding()) {
+    return {
+      cfg,
+      servicos: conteudoEstatico.servicos,
+      galeria: conteudoEstatico.galeria,
+      expediente: conteudoEstatico.expediente,
+    };
+  }
   const servicos = await listarServicos({ apenasAtivos: true });
   const galeria = await listarGaleria();
   const expediente = await listarExpediente();

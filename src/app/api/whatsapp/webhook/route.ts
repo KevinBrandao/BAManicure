@@ -6,6 +6,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { assinaturaValida, configWhatsApp } from "@/lib/whatsapp/client";
 import { processarWebhook } from "@/lib/whatsapp/webhook";
+import { modoLanding } from "@/lib/conteudo";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
@@ -16,7 +17,10 @@ function iguais(a: string, b: string): boolean {
   return ba.length === bb.length && timingSafeEqual(ba, bb);
 }
 
+const DESLIGADO = "Atendimento automático desativado nesta publicação (site sem banco de dados).";
+
 export async function GET(req: Request) {
+  if (modoLanding()) return new Response(DESLIGADO, { status: 503 });
   const url = new URL(req.url);
   const modo = url.searchParams.get("hub.mode");
   const token = url.searchParams.get("hub.verify_token") ?? "";
@@ -30,6 +34,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  if (modoLanding()) return new Response(DESLIGADO, { status: 503 });
   const { appSecret } = configWhatsApp();
   if (!appSecret) {
     // sem o App Secret não há como validar a origem: recusa tudo

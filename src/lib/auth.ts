@@ -7,8 +7,9 @@
 import { createHash, randomBytes } from "node:crypto";
 import { cache } from "react";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDb } from "./db";
+import { modoLanding } from "./conteudo";
 import { verificarSenha } from "./usuarios";
 
 export { criarAdministradora, existeAdministradora, hashSenha, verificarSenha } from "./usuarios";
@@ -32,6 +33,7 @@ function hashToken(token: string): string {
 export type ResultadoLogin = { ok: true } | { ok: false; erro: string };
 
 export async function entrar(emailBruto: string, senha: string): Promise<ResultadoLogin> {
+  if (modoLanding()) return { ok: false, erro: "Painel indisponível nesta publicação." };
   const db = await getDb();
   const email = emailBruto.trim().toLowerCase();
   if (!email || !senha) return { ok: false, erro: "Informe e-mail e senha." };
@@ -106,6 +108,7 @@ export const usuarioAtual = cache(async (): Promise<Usuario | null> => {
 
 /** Protege páginas e ações do painel: sem sessão válida, vai para o login. */
 export async function exigirAdmin(): Promise<Usuario> {
+  if (modoLanding()) notFound(); // site publicado sem banco: não há painel
   const usuario = await usuarioAtual();
   if (!usuario || usuario.role !== "admin") redirect("/admin/login");
   return usuario;

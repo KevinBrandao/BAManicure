@@ -1,4 +1,5 @@
 import { getDb, type Queryable } from "./db";
+import { conteudoEstatico, modoLanding } from "./conteudo";
 
 export interface Configuracoes {
   // Site
@@ -12,6 +13,8 @@ export interface Configuracoes {
   /** Número do WhatsApp de atendimento, só dígitos com DDI (ex.: 5511999998888) */
   whatsapp_numero: string;
   instagram: string;
+  /** Logo (monograma) exibido no cabeçalho do site */
+  logo_id: string | null;
   foto_principal_id: string | null;
   foto_sobre_id: string | null;
   // Regras de agendamento
@@ -35,6 +38,7 @@ export const CONFIG_PADRAO: Configuracoes = {
   maps_url: "",
   whatsapp_numero: "",
   instagram: "",
+  logo_id: null,
   foto_principal_id: null,
   foto_sobre_id: null,
   antecedencia_minima_minutos: 120,
@@ -44,6 +48,13 @@ export const CONFIG_PADRAO: Configuracoes = {
 };
 
 export async function lerConfiguracoes(q?: Queryable): Promise<Configuracoes> {
+  if (!q && modoLanding()) {
+    const estatico: Record<string, unknown> = { ...CONFIG_PADRAO };
+    for (const [chave, valor] of Object.entries(conteudoEstatico.cfg)) {
+      if (chave in CONFIG_PADRAO) estatico[chave] = valor;
+    }
+    return estatico as unknown as Configuracoes;
+  }
   const db = q ?? (await getDb());
   const { rows } = await db.query<{ chave: string; valor: unknown }>("SELECT chave, valor FROM settings");
   const cfg: Record<string, unknown> = { ...CONFIG_PADRAO };

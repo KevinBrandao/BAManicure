@@ -5,7 +5,7 @@
   "description": "Sistema inteligente de agendamento para manicure com atendimento automatizado pelo WhatsApp",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsx scripts/predeploy.ts && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -13,7 +13,9 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
     "admin:create": "tsx scripts/create-admin.ts",
-    "worker": "tsx scripts/worker.ts"
+    "worker": "tsx scripts/worker.ts",
+    "db:publicar-config": "tsx scripts/publicar-config.ts",
+    "site:exportar": "tsx scripts/exportar-site.ts"
   },
   "engines": {
     "node": ">=20"
@@ -23,16 +25,17 @@
     "next": "^16.4.6",
     "pg": "^8.23.1",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
+    "@electric-sql/pglite-socket": "^0.2.19",
     "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^22.20.5",
     "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "tailwindcss": "^4.3.5",
-    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^5.1.0"
   }

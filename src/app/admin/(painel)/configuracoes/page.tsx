@@ -25,6 +25,7 @@ export default async function Configuracoes({ searchParams }: { searchParams: Bu
   const expediente = await listarExpediente();
   const especiais = await listarDatasEspeciais(hoje());
   const porDia = new Map(expediente.map((e) => [e.dia_semana, e]));
+  const logo = urlImagem(cfg.logo_id);
   const fotoPrincipal = urlImagem(cfg.foto_principal_id);
   const fotoSobre = urlImagem(cfg.foto_sobre_id);
 
@@ -232,6 +233,19 @@ export default async function Configuracoes({ searchParams }: { searchParams: Bu
           <div>
             <label htmlFor="maps_url" className="rotulo">Link do Google Maps (opcional)</label>
             <input id="maps_url" name="maps_url" type="url" maxLength={500} placeholder="https://maps.app.goo.gl/..." defaultValue={cfg.maps_url} className="campo" />
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="logo" className="rotulo">Logo (aparece no cabeçalho do site)</label>
+            {logo && (
+              <div className="mb-2 flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={logo} alt="Logo atual" className="h-16 w-16 rounded-full object-cover" />
+                <label className="flex items-center gap-2 text-sm">
+                  <input type="checkbox" name="remover_logo" className="h-4 w-4 accent-rose-500" /> Remover
+                </label>
+              </div>
+            )}
+            <input id="logo" name="logo" type="file" accept="image/jpeg,image/png,image/webp" className={ARQUIVO} />
           </div>
           <div>
             <label htmlFor="foto_principal" className="rotulo">Foto principal (topo do site)</label>
